@@ -85,13 +85,14 @@ async function installContent(files,
       : Promise.reject(
         new util.DataInvalid('invalid or unsupported ' + MOD_INFO_FILE));
 
-    // Set the mod name based on mod_info.json
-    // TODO If the mod is being installed from Nexus, we don't want to overwrite the name
-    attrInstructions.push({
-      type: 'attribute',
-      key: 'customFileName',
-      value: getAttr('name').trim(),
-    });
+    // Don't overwrite name because authors tend to put "beta 1" or "RC1" or "WIP 3"
+    // in the Nexus or archive name, but not in the metadata name or metadata version.
+    // We don't want to lose that information, even to have a nicer-looking name than the archive filename.
+    // attrInstructions.push({
+    //   type: 'attribute',
+    //   key: 'customFileName',
+    //   value: getAttr('name').trim(),
+    // });
 
     // Set the mod version based on mod_info.json
     attrInstructions.push({
